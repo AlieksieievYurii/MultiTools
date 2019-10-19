@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">MultiTools</string>
+    <string name="calculators">Calculators</string>
+    <string name="sensors">Sensors</string>
+    <string name="managers">Managers</string>
+    <string name="GPS">GPS</string>
+
+    <string name="combustion">Combustion</string>
+    <string name="level">Level</string>
+    <string name="environmental">Environmental</string>
+    <string name="embedded">Embedded</string>
+    <string name="compass">Compass</string>
+
+    <string name="bluetooth">Bluetooth</string>
+    <string name="wifi">Wifi</string>
+    <string name="camera">Camera</string>
+
+    <string name="follower">Follower</string>
+    <string name="gps_map">Map</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
