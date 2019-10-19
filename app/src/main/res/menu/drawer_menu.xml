@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/calculators_group"
+        android:checkableBehavior="single">
+        <item android:title="@string/calculators">
+            <menu>
+                <item
+                    android:id="@+id/item_combustion"
+                    android:icon="@drawable/ic_combustion"
+                    android:title="@string/combustion" />
+            </menu>
+        </item>
+    </group>
+
+    <group
+        android:id="@+id/sensors_group"
+        android:checkableBehavior="single">
+        <item android:title="@string/sensors">
+            <menu>
+                <item
+                    android:id="@+id/item_level"
+                    android:icon="@drawable/ic_level"
+                    android:title="@string/level" />
+                <item
+                    android:id="@+id/item_embedded"
+                    android:icon="@drawable/ic_embedded"
+                    android:title="@string/embedded" />
+                <item
+                    android:id="@+id/item_environment"
+                    android:icon="@drawable/ic_environment"
+                    android:title="@string/environmental" />
+                <item
+                    android:id="@+id/item_compass"
+                    android:icon="@drawable/ic_compass"
+                    android:title="@string/compass" />
+            </menu>
+        </item>
+    </group>
+
+    <group
+        android:id="@+id/managers_group"
+        android:checkableBehavior="single">
+        <item android:title="@string/managers">
+            <menu>
+                <item
+                    android:id="@+id/item_bluetooth"
+                    android:icon="@drawable/ic_bluetooth"
+                    android:title="@string/bluetooth" />
+                <item
+                    android:id="@+id/item_wifi"
+                    android:icon="@drawable/ic_wifi"
+                    android:title="@string/wifi" />
+                <item
+                    android:id="@+id/item_camera"
+                    android:icon="@drawable/ic_camera"
+                    android:title="@string/camera" />
+            </menu>
+        </item>
+    </group>
+
+    <group
+        android:id="@+id/gps_group"
+        android:checkableBehavior="single">
+        <item android:title="@string/GPS">
+            <menu>
+                <item
+                    android:id="@+id/item_gps_follower"
+                    android:title="@string/follower"
+                    android:icon="@drawable/ic_gps"/>
+                <item android:id="@+id/item_gps_map"
+                    android:title="@string/gps_map"
+                    android:icon="@drawable/ic_map"/>
+            </menu>
+        </item>
+    </group>
+
+</menu>
