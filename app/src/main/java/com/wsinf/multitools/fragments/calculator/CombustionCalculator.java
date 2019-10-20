@@ -1,10 +1,12 @@
-package com.wsinf.multitools.fragments;
+package com.wsinf.multitools.fragments.calculator;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -16,6 +18,8 @@ import androidx.fragment.app.Fragment;
 import com.wsinf.multitools.R;
 
 public class CombustionCalculator extends Fragment {
+
+    private Context context;
 
     private EditText edtDistance;
     private EditText edtFuelConsumption;
@@ -37,6 +41,8 @@ public class CombustionCalculator extends Fragment {
         this.edtCostFuel = view.findViewById(R.id.edt_cost_fuel);
         this.spMetricDistance = view.findViewById(R.id.sp_distance_metric);
 
+        this.spMetricDistance.setAdapter(new ArrayAdapter<>(this.context, android.R.layout.simple_spinner_item, DistanceMetricSystem.values()));
+
         final AppCompatButton btnCalculate = view.findViewById(R.id.btn_calculate);
         btnCalculate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,6 +50,12 @@ public class CombustionCalculator extends Fragment {
                 calculate();
             }
         });
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = context;
     }
 
     private boolean isValidatedFields() {
@@ -67,8 +79,19 @@ public class CombustionCalculator extends Fragment {
     }
 
     private void calculate() {
-        if (isValidatedFields()) {
+        if (!isValidatedFields())
+            return;
 
-        }
+        final float distance = Float.parseFloat(this.edtDistance.getText().toString());
+        final float fuelConsumption = Float.parseFloat(this.edtFuelConsumption.getText().toString());
+        final float costFuel = Float.parseFloat(this.edtCostFuel.getText().toString());
+
+        final CalculationModule calculationModule = CalculationModule.calculate(
+                (DistanceMetricSystem) this.spMetricDistance.getSelectedItem(),
+                distance, fuelConsumption, costFuel);
+
+        ResultDialog resultDialog = new ResultDialog(this.context, calculationModule);
+        resultDialog.show();
+
     }
 }
