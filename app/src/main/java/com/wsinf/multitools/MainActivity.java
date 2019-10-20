@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import com.google.android.material.navigation.NavigationView;
 import com.wsinf.multitools.fragments.Bluetooth;
 import com.wsinf.multitools.fragments.Camera;
-import com.wsinf.multitools.fragments.CombustionCalculator;
+import com.wsinf.multitools.fragments.calculator.CombustionCalculator;
 import com.wsinf.multitools.fragments.Compass;
 import com.wsinf.multitools.fragments.EmbeddedSensors;
 import com.wsinf.multitools.fragments.EnvironmentalSensors;
@@ -21,6 +21,8 @@ import com.wsinf.multitools.fragments.GpsMap;
 import com.wsinf.multitools.fragments.GpsSpy;
 import com.wsinf.multitools.fragments.LevelSensor;
 import com.wsinf.multitools.fragments.Wifi;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -51,51 +53,61 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void loadCombustionCalculatorFragment() {
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.combustion);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new CombustionCalculator()).commit();
     }
 
     private void loadLevelSensorFragment() {
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.level);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new LevelSensor()).commit();
     }
 
     private void loadEmbeddedSensorsFragment() {
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.embedded);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new EmbeddedSensors()).commit();
     }
 
     private void loadEnvironmentalSensorsFragment() {
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.environmental);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new EnvironmentalSensors()).commit();
     }
 
     private void loadCompassFragment() {
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.compass);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new Compass()).commit();
     }
 
     private void loadBluetoothFragment() {
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.bluetooth);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new Bluetooth()).commit();
     }
 
     private void loadWifiFragment() {
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.wifi);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new Wifi()).commit();
     }
 
     private void loadCameraFragment() {
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.camera);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new Camera()).commit();
     }
 
     private void loadGpsSpyFragment() {
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.GPS);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new GpsSpy()).commit();
     }
 
     private void loadGpsMapFragment() {
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.gps_map);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new GpsMap()).commit();
     }
