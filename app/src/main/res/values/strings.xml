@@ -33,6 +33,9 @@
     <string name="result_dialog_fuel_spent">Fuel spent:</string>
     <string name="result_dialog_money_spent">Money spent:</string>
     <string name="permissions">Permissions</string>
+    <string name="granted">Granted</string>
+    <string name="forbidden">Forbidden</string>
+    <string name="request">Request</string>
 
     <string-array name="distance_metric_systems">
         <item>Km</item>
