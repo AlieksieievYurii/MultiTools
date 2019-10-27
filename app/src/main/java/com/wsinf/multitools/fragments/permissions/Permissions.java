@@ -68,7 +68,7 @@ public class Permissions extends Fragment implements OnPermissionsRequest {
 
     private void createItem(Permission p)
     {
-        ViewItemPermission v = new ViewItemPermission(context, p);
+        final ViewItemPermission v = new ViewItemPermission(context, p);
         permissionsView.add(v);
         root.addView(v.getView());
     }
