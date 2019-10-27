@@ -21,6 +21,7 @@ import com.wsinf.multitools.fragments.GpsMap;
 import com.wsinf.multitools.fragments.GpsSpy;
 import com.wsinf.multitools.fragments.level.LevelSensor;
 import com.wsinf.multitools.fragments.Wifi;
+import com.wsinf.multitools.fragments.permissions.Permissions;
 
 import java.util.Objects;
 
@@ -76,6 +77,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new EnvironmentalSensors()).commit();
     }
 
+    private void loadPermissionsFragment() {
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.environmental);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new Permissions()).commit();
+    }
+
     private void loadCompassFragment() {
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.compass);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -129,6 +136,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.item_compass:
                 loadCompassFragment();
+                break;
+
+            case R.id.item_permissions:
+                loadPermissionsFragment();
                 break;
             case R.id.item_bluetooth:
                 loadBluetoothFragment();

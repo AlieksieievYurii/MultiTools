@@ -36,6 +36,11 @@
         android:checkableBehavior="single">
 
         <item
+            android:id="@+id/item_permissions"
+            android:icon="@drawable/ic_permissions"
+            android:title="@string/permissions"/>
+
+        <item
             android:id="@+id/item_bluetooth"
             android:icon="@drawable/ic_bluetooth"
             android:title="@string/bluetooth" />
