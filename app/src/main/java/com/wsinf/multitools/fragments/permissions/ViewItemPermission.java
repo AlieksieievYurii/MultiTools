@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.wsinf.multitools.R;
-import com.wsinf.multitools.fragments.permissions.OnRefreshStatus;
 import com.wsinf.multitools.fragments.permissions.permissions.Permission;
 
 public class ViewItemPermission implements View.OnClickListener, OnRefreshStatus {
@@ -19,7 +18,7 @@ public class ViewItemPermission implements View.OnClickListener, OnRefreshStatus
     private View vGranted;
     private View vForbidden;
 
-    public ViewItemPermission(Context context, Permission permission) {
+    ViewItemPermission(Context context, Permission permission) {
         this.context = context;
         this.permission = permission;
         init();
@@ -50,7 +49,7 @@ public class ViewItemPermission implements View.OnClickListener, OnRefreshStatus
         }
     }
 
-    public View getView() {
+    View getView() {
         return view;
     }
 
