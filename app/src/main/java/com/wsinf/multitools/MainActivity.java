@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -21,6 +20,7 @@ import com.wsinf.multitools.fragments.GpsMap;
 import com.wsinf.multitools.fragments.GpsSpy;
 import com.wsinf.multitools.fragments.level.LevelSensor;
 import com.wsinf.multitools.fragments.Wifi;
+import com.wsinf.multitools.fragments.permissions.OnPermissionsRequest;
 import com.wsinf.multitools.fragments.permissions.Permissions;
 
 import java.util.Objects;
@@ -28,6 +28,8 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
+
+    private OnPermissionsRequest permissionFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,9 +80,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void loadPermissionsFragment() {
-        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.environmental);
+        final Permissions permissionsFragment = new Permissions();
+        permissionFragment = permissionsFragment;
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.permissions);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new Permissions()).commit();
+                permissionsFragment).commit();
     }
 
     private void loadCompassFragment() {
@@ -167,5 +171,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawerLayout.closeDrawer(GravityCompat.START);
         else
             super.onBackPressed();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        permissionFragment.onRequest(requestCode, permissions, grantResults);
     }
 }
