@@ -1,4 +1,4 @@
-package com.wsinf.multitools.fragments;
+package com.wsinf.multitools.fragments.embedded;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +22,7 @@ public class EmbeddedSensors extends Fragment {
 
     private SensorManager sensorManager;
     private Context context;
+    private ListView sensorsListView;
 
     @Nullable
     @Override
@@ -37,17 +39,12 @@ public class EmbeddedSensors extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-    }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        sensorsListView = view.findViewById(R.id.sensors_list_view);
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 
         List<Sensor> list = sensorManager.getSensorList(Sensor.TYPE_ALL);
 
-        for (Sensor s : list) {
-            Log.d("SENSOR:", String.format("S: %s   v: %s   vers:%s", s.getName(), s.getVendor(), s.getVersion()));
-        }
+        sensorsListView.setAdapter(new SensorsListAdapter(list, context));
     }
 }

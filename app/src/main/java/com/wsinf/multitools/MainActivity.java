@@ -15,7 +15,7 @@ import com.wsinf.multitools.fragments.Bluetooth;
 import com.wsinf.multitools.fragments.Camera;
 import com.wsinf.multitools.fragments.calculator.CombustionCalculator;
 import com.wsinf.multitools.fragments.Compass;
-import com.wsinf.multitools.fragments.EmbeddedSensors;
+import com.wsinf.multitools.fragments.embedded.EmbeddedSensors;
 import com.wsinf.multitools.fragments.EnvironmentalSensors;
 import com.wsinf.multitools.fragments.GpsMap;
 import com.wsinf.multitools.fragments.GpsSpy;
