@@ -19,7 +19,7 @@ import com.wsinf.multitools.fragments.EmbeddedSensors;
 import com.wsinf.multitools.fragments.EnvironmentalSensors;
 import com.wsinf.multitools.fragments.GpsMap;
 import com.wsinf.multitools.fragments.GpsSpy;
-import com.wsinf.multitools.fragments.LevelSensor;
+import com.wsinf.multitools.fragments.level.LevelSensor;
 import com.wsinf.multitools.fragments.Wifi;
 
 import java.util.Objects;
