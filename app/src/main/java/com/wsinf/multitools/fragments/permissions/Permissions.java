@@ -38,7 +38,7 @@ public class Permissions extends Fragment implements OnPermissionsRequest {
                     PackageManager.GET_PERMISSIONS).requestedPermissions;
 
             for (String permissionName : permission)
-                permissionObjects.add(new Permission(getActivity(), context, permissionName, -1));
+                permissionObjects.add(new Permission(getActivity(), context, permissionName, 0));
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
