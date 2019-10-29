@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.wsinf.multitools.R;
-import com.wsinf.multitools.fragments.permissions.permissions.Permission;
 
 public class ViewItemPermission implements View.OnClickListener, OnRefreshStatus {
     private Context context;

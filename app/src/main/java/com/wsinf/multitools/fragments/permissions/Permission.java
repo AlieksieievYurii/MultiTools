@@ -1,4 +1,4 @@
-package com.wsinf.multitools.fragments.permissions.permissions;
+package com.wsinf.multitools.fragments.permissions;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -6,7 +6,7 @@ import android.content.pm.PackageManager;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
-public abstract class Permission {
+class Permission {
     private FragmentActivity fragmentActivity;
     private Context context;
     private String perm;
@@ -26,15 +26,15 @@ public abstract class Permission {
             this.perm = perm;
     }
 
-    public boolean isPermissionGranted() {
+    boolean isPermissionGranted() {
         return ActivityCompat.checkSelfPermission(context, perm) == PackageManager.PERMISSION_GRANTED;
     }
 
-    public void requestPermission() {
+    void requestPermission() {
         ActivityCompat.requestPermissions(fragmentActivity, new String[]{perm}, requestCode);
     }
 
-    public String getPermissionName() {
+    String getPermissionName() {
         return perm.split("\\.")[2];
     }
 }
