@@ -4,8 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.util.Log;
+
 import java.util.List;
 
 public class WifiService {
@@ -30,6 +33,14 @@ public class WifiService {
         };
 
         context.registerReceiver(wifiScanReceiver, wifiIntentFilter);
+    }
+
+    public boolean isEnable() {
+        return wifiManager.isWifiEnabled();
+    }
+
+    public void setEnable(final boolean enable) {
+        wifiManager.setWifiEnabled(enable);
     }
 
     private void scanSuccess() {

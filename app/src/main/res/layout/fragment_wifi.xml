@@ -15,4 +15,25 @@
         android:layout_centerInParent="true"
         android:visibility="visible"/>
 
+    <LinearLayout
+        android:id="@+id/ln_wifi_is_disable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_centerInParent="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wifi_is_disable"
+            style="@style/TextAppearance.AppCompat.Title"/>
+        <Button
+            android:id="@+id/btn_enable_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enable_wifi"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
 </RelativeLayout>
