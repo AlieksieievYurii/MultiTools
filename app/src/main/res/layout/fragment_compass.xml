@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_degree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        tools:text="50c"
+        style="@style/TextAppearance.MaterialComponents.Headline3"
+        android:layout_marginTop="20dp"/>
+
+    <ImageView
+        android:id="@+id/im_compass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/compass"
+        android:layout_centerInParent="true"
+        android:contentDescription="@string/compass"
+        android:padding="58dp"/>
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:minHeight="390dp"
+            android:minWidth="390dp"
+            style="@style/Widget.MaterialProgressBar.ProgressBar"
+            android:progress="50"/>
+</RelativeLayout>

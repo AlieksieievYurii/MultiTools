@@ -1,14 +1,12 @@
-package com.wsinf.multitools.fragments;
+package com.wsinf.multitools.fragments.compass;
 
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,12 +16,14 @@ import androidx.fragment.app.Fragment;
 
 import com.wsinf.multitools.R;
 
-public class Compass extends Fragment implements SensorEventListener {
+public class Compass extends Fragment implements CompassEvent {
 
     private ImageView imCompass;
     private TextView tvDegree;
 
-    private SensorManager sensorManager;
+    private MySensor sensor;
+    private float mCurrentDegree = 0f;
+
 
     @Nullable
     @Override
@@ -38,23 +38,36 @@ public class Compass extends Fragment implements SensorEventListener {
         imCompass = view.findViewById(R.id.im_compass);
         tvDegree = view.findViewById(R.id.tv_degree);
 
-        sensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
-    }
+        sensor = new CompassSensor(getContext(), this);
+}
 
     @Override
     public void onResume() {
         super.onResume();
-
-        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_O))
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
+        sensor.onStart();
 
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    public void onPause() {
+        super.onPause();
+        sensor.onStop();
+    }
 
+    @Override
+    public void onCompassChange(int degree) {
+        tvDegree.setText(String.format("%s C", String.valueOf(degree)));
+        RotateAnimation ra = new RotateAnimation(
+                mCurrentDegree,
+                -degree,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF,
+                0.5f);
+        ra.setDuration(250);
+
+        ra.setFillAfter(true);
+
+        imCompass.startAnimation(ra);
+        mCurrentDegree = -degree;
     }
 }
