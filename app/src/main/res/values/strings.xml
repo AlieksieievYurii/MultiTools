@@ -36,6 +36,7 @@
     <string name="granted">Granted</string>
     <string name="forbidden">Forbidden</string>
     <string name="request">Request</string>
+    <string name="signal">Signal level</string>
 
     <string-array name="distance_metric_systems">
         <item>Km</item>
