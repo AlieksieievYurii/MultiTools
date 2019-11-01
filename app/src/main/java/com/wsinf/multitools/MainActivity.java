@@ -19,7 +19,7 @@ import com.wsinf.multitools.fragments.GpsMap;
 import com.wsinf.multitools.fragments.GpsSpy;
 import com.wsinf.multitools.fragments.embedded.EmbeddedSensors;
 import com.wsinf.multitools.fragments.level.LevelSensor;
-import com.wsinf.multitools.fragments.Wifi;
+import com.wsinf.multitools.fragments.wifi.Wifi;
 import com.wsinf.multitools.fragments.permissions.OnPermissionsRequest;
 import com.wsinf.multitools.fragments.permissions.Permissions;
 
