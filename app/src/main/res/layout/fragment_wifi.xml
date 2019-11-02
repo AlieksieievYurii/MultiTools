@@ -36,4 +36,21 @@
 
     </LinearLayout>
 
+    <FrameLayout
+        android:id="@+id/fl_connection"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:visibility="gone"
+        android:clickable="true"
+        android:alpha="0.4"
+        android:background="#000000">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
 </RelativeLayout>

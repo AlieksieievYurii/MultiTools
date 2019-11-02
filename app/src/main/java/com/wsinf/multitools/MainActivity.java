@@ -51,8 +51,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        loadCombustionCalculatorFragment();
-        navigationView.setCheckedItem(R.id.item_combustion);
+        if (savedInstanceState == null) {
+            loadCombustionCalculatorFragment();
+            navigationView.setCheckedItem(R.id.item_combustion);
+        }
     }
 
     private void loadCombustionCalculatorFragment() {
