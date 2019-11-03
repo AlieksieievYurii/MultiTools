@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 import com.wsinf.multitools.fragments.Bluetooth;
-import com.wsinf.multitools.fragments.Camera;
+import com.wsinf.multitools.fragments.camera.Camera;
 import com.wsinf.multitools.fragments.calculator.CombustionCalculator;
 import com.wsinf.multitools.fragments.compass.Compass;
 import com.wsinf.multitools.fragments.EnvironmentalSensors;
