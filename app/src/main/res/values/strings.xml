@@ -41,6 +41,8 @@
     <string name="enable_wifi">Enable WIFI</string>
     <string name="password">Password</string>
     <string name="show_password">Show password</string>
+    <string name="here_is_image">Here is image!</string>
+    <string name="button_take_picture">Button take picture</string>
 
     <string-array name="distance_metric_systems">
         <item>Km</item>
