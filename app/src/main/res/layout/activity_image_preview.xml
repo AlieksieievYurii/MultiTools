@@ -25,13 +25,20 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp">
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:theme="@style/Widget.MaterialComponents.Button"
-            android:text="Save"/>
+            android:text="@string/save"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_stir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/Widget.AppCompat.Button.Small"
+            android:text="@string/stir"/>
     </LinearLayout>
 
 </LinearLayout>

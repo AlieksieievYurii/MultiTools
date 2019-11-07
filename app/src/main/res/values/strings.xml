@@ -43,6 +43,8 @@
     <string name="show_password">Show password</string>
     <string name="here_is_image">Here is image!</string>
     <string name="button_take_picture">Button take picture</string>
+    <string name="save">Save</string>
+    <string name="stir">Stir</string>
 
     <string-array name="distance_metric_systems">
         <item>Km</item>

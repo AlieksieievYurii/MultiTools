@@ -2,12 +2,14 @@ package com.wsinf.multitools.fragments.camera.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageFormat;
+import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import java.io.IOException;
+import java.util.List;
 
 public class CameraService implements CameraInterface, SurfaceHolder.Callback {
 
@@ -25,7 +27,7 @@ public class CameraService implements CameraInterface, SurfaceHolder.Callback {
 
     @Override
     public void takePicture(final OnGetPicture onGetPicture) {
-        if (!pending) {
+        if (camera != null && !pending) {
             pending = true;
             camera.takePicture(null, null, new Camera.PictureCallback() {
                 @Override
@@ -38,7 +40,19 @@ public class CameraService implements CameraInterface, SurfaceHolder.Callback {
     }
 
     private Bitmap convert(final byte[] data) {
-        final Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+
+        if (currentCameraFacing == Camera.CameraInfo.CAMERA_FACING_FRONT)
+        {
+            Matrix matrix = new Matrix();
+
+            matrix.postRotate(180);
+
+            Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
+
+            bitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+        }
+
         return bitmap;
     }
 
@@ -67,17 +81,12 @@ public class CameraService implements CameraInterface, SurfaceHolder.Callback {
         try {
             camera = Camera.open(currentCameraFacing);
             camera.setDisplayOrientation(90);
+            camera.setParameters(getParameters(camera.getParameters()));
+            camera.setPreviewDisplay(surfaceHolder);
+            camera.startPreview();
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(TAG, "Error of opening the camera: " + e.getMessage());
-        }
-
-        try {
-            camera.setPreviewDisplay(surfaceHolder);
-            camera.startPreview();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e(TAG, "Error of preview the camera: " + e.getMessage());
         }
     }
 
@@ -86,7 +95,18 @@ public class CameraService implements CameraInterface, SurfaceHolder.Callback {
         if (camera != null) {
             camera.stopPreview();
             camera.release();
+            camera = null;
         }
+    }
+
+    private Camera.Parameters getParameters(final Camera.Parameters parameters) {
+        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+        parameters.setSceneMode(Camera.Parameters.SCENE_MODE_AUTO);
+        parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
+        parameters.setExposureCompensation(0);
+        parameters.setPictureFormat(ImageFormat.JPEG);
+        parameters.setJpegQuality(100);
+        return parameters;
     }
 
     @Override
