@@ -11,15 +11,15 @@ import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 import com.wsinf.multitools.fragments.Bluetooth;
-import com.wsinf.multitools.fragments.Camera;
+import com.wsinf.multitools.fragments.camera.Camera;
 import com.wsinf.multitools.fragments.calculator.CombustionCalculator;
-import com.wsinf.multitools.fragments.Compass;
-import com.wsinf.multitools.fragments.EmbeddedSensors;
+import com.wsinf.multitools.fragments.compass.Compass;
 import com.wsinf.multitools.fragments.EnvironmentalSensors;
 import com.wsinf.multitools.fragments.GpsMap;
 import com.wsinf.multitools.fragments.GpsSpy;
+import com.wsinf.multitools.fragments.embedded.EmbeddedSensors;
 import com.wsinf.multitools.fragments.level.LevelSensor;
-import com.wsinf.multitools.fragments.Wifi;
+import com.wsinf.multitools.fragments.wifi.Wifi;
 import com.wsinf.multitools.fragments.permissions.OnPermissionsRequest;
 import com.wsinf.multitools.fragments.permissions.Permissions;
 
@@ -51,8 +51,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        loadCombustionCalculatorFragment();
-        navigationView.setCheckedItem(R.id.item_combustion);
+        if (savedInstanceState == null) {
+            loadCombustionCalculatorFragment();
+            navigationView.setCheckedItem(R.id.item_combustion);
+        }
     }
 
     private void loadCombustionCalculatorFragment() {

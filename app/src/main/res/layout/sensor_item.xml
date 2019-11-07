@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tv_hint_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name:"
+        android:textColor="@android:color/holo_orange_light"/>
+
+    <TextView
+        android:id="@+id/tv_sensor_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_alignTop="@id/tv_hint_name"
+        android:layout_toEndOf="@id/tv_hint_name"
+        tools:text="nameerferferfergregdfsgfdgsdfdgdfgdgergeergergegrergergrggsfdgsfdf"/>
+
+    <TextView
+        android:id="@+id/tv_hint_vendor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vendor:"
+        android:layout_below="@id/tv_sensor_name"
+        android:textColor="@android:color/holo_orange_light"/>
+
+    <TextView
+        android:id="@+id/tv_sensor_vendor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_sensor_name"
+        android:layout_alignTop="@id/tv_hint_vendor"
+        android:layout_marginStart="5dp"
+        tools:text="test_vendor"
+        android:layout_toEndOf="@id/tv_hint_vendor"/>
+
+    <TextView
+        android:id="@+id/tv_sensor_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="1232.423"
+        android:layout_toEndOf="@id/tv_hint_version"
+        android:layout_alignTop="@id/tv_hint_version"
+        android:layout_marginStart="5dp" />
+
+    <TextView
+        android:id="@+id/tv_hint_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Version:"
+        android:textColor="@android:color/holo_orange_light"
+        android:layout_below="@id/tv_sensor_vendor"/>
+
+
+</RelativeLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/iv_signal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_signal_4"
+        android:contentDescription="@string/signal"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_network_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/iv_signal"
+        tools:text="network_name"
+        style="@style/TextAppearance.MaterialComponents.Body1"/>
+
+    <TextView
+        android:id="@+id/tv_network_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/iv_signal"
+        android:textColor="@android:color/holo_orange_light"
+        android:layout_below="@id/tv_network_name"
+        android:textSize="12sp"
+        tools:text="12:wfe:4234:rwe"/>
+
+</RelativeLayout>
