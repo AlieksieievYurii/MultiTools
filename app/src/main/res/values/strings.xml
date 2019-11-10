@@ -45,6 +45,7 @@
     <string name="button_take_picture">Button take picture</string>
     <string name="save">Save</string>
     <string name="stir">Stir</string>
+    <string name="permissions_are_required">Permissions are required!</string>
 
     <string-array name="distance_metric_systems">
         <item>Km</item>
