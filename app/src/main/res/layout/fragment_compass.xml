@@ -1,32 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
         android:id="@+id/tv_degree"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        tools:text="50c"
-        style="@style/TextAppearance.MaterialComponents.Headline3"
-        android:layout_marginTop="20dp"/>
+        tools:text="45*wf"
+        android:layout_marginTop="16dp"
+        android:textAlignment="center"
+        android:textSize="26sp"
+        android:textColor="@android:color/black"/>
 
-    <ImageView
-        android:id="@+id/im_compass"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ln_lat_long"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/compass"
-        android:layout_centerInParent="true"
-        android:contentDescription="@string/compass"
-        android:padding="58dp"/>
-        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-            android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+        <TextView
+            android:id="@+id/tv_lat"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:minHeight="390dp"
-            android:minWidth="390dp"
-            style="@style/Widget.MaterialProgressBar.ProgressBar"
-            android:progress="50"/>
-</RelativeLayout>
+            android:layout_weight="1"
+            android:textSize="20sp"
+            tools:text="LAt:23.33"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"/>
+        <TextView
+            android:id="@+id/tv_long"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            tools:text="Long:23.33"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_permission_required"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/permissions_are_required"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="26sp"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.wsinf.multitools.fragments.compass.CompassView
+            android:id="@+id/cv_compass"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+</LinearLayout>
