@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
 
     private OnPermissionsRequest permissionFragment;
+    private OnPermissionsRequest permissionLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,9 +91,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void loadCompassFragment() {
+        final Compass compass = new Compass();
+        permissionLocation = compass;
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.compass);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new Compass()).commit();
+                compass).commit();
     }
 
     private void loadBluetoothFragment() {
@@ -179,5 +182,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (permissionFragment != null)
             permissionFragment.onRequest(requestCode, permissions, grantResults);
+
+        if (permissionLocation != null)
+            permissionLocation.onRequest(requestCode, permissions, grantResults);
     }
 }
