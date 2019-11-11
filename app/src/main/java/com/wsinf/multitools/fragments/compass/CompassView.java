@@ -43,8 +43,9 @@ public class CompassView extends View {
         pointer = Utils.getAsBitmap(getContext(), R.drawable.ic_navigation);
     }
 
-    public void setBearing(float bearing) {
-        this.bearing = bearing;
+    void onAzimuth(final int azimuth) {
+        this.bearing = azimuth;
+        invalidate();
     }
 
     @Override
