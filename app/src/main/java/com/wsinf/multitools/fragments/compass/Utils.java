@@ -6,12 +6,12 @@ import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-class Utils {
+public class Utils {
     private static final float ALPHA = 0.2f;
 
     private Utils() { }
 
-    static float[] lowPassFilter(float[] input, float[] output) {
+    public static float[] lowPassFilter(float[] input, float[] output) {
         if (output == null)
             return input;
 
