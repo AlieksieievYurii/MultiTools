@@ -5,10 +5,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -22,7 +22,10 @@ public class CompassView extends View {
     private int height = 0;
     private Matrix matrix;
     private Bitmap bitmap;
+    private Bitmap pointer;
     private float bearing;
+
+    private boolean isInitialized = false;
 
     public CompassView(Context context) {
         super(context);
@@ -37,6 +40,7 @@ public class CompassView extends View {
     private void initialize() {
         matrix = new Matrix();
         bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.compass);
+        pointer = Utils.getAsBitmap(getContext(), R.drawable.ic_navigation);
     }
 
     public void setBearing(float bearing) {
@@ -51,10 +55,7 @@ public class CompassView extends View {
         setMeasuredDimension(width, height);
     }
 
-    @SuppressLint("DrawAllocation")
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+    private void initializeBitmaps() {
         final int bitmapWidth = bitmap.getWidth();
         final int bitmapHeight = bitmap.getHeight();
         final int canvasWidth = getWidth();
@@ -62,23 +63,83 @@ public class CompassView extends View {
 
         if (bitmapWidth > canvasWidth || bitmapHeight > canvasHeight) {
             bitmap = Bitmap.createScaledBitmap(bitmap,
-                    (int) (bitmapWidth * 0.40),
-                    (int) (bitmapHeight * 0.40),
+                    (int) (bitmapWidth * 0.60),
+                    (int) (bitmapHeight * 0.60),
                     true);
         }
+    }
 
-        final int bitmapX = bitmap.getWidth() / 2;
-        final int bitmapY = bitmap.getHeight() / 2;
-        final int parentX = width / 2;
-        final int parentY = height / 2;
-        final int centerX = parentX - bitmapX;
-        final int centerY = parentY - bitmapY;
+    @SuppressLint("DrawAllocation")
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if (!isInitialized) {
+            initializeBitmaps();
+            isInitialized = true;
+        }
+
+        drawCompass(canvas);
+        drawPointer(canvas);
+        drawAzimuth(canvas);
+    }
+
+    @SuppressLint("DefaultLocale")
+    private String getAzimuth() {
+        int range = (int) (bearing / (360f / 16f));
+        String dirTxt = "";
+
+        if (range == 15 || range == 0)
+            dirTxt = "N";
+        else if (range == 1 || range == 2)
+            dirTxt = "NE";
+        else if (range == 3 || range == 4)
+            dirTxt = "E";
+        else if (range == 5 || range == 6)
+            dirTxt = "SE";
+        else if (range == 7 || range == 8)
+            dirTxt = "S";
+        else if (range == 9 || range == 10)
+            dirTxt = "SW";
+        else if (range == 11 || range == 12)
+            dirTxt = "W";
+        else if (range == 13 || range == 14)
+            dirTxt = "NW";
+
+        return String.format("%d%c %s", (int) bearing, 176, dirTxt);
+    }
+
+    private void drawAzimuth(final Canvas canvas) {
+        final int bitmapCenterY = bitmap.getHeight() / 2;
+        final int parentCenterX = width / 2;
+        paint.reset();
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(120);
+        final String text = getAzimuth();
+        canvas.drawText(text, parentCenterX - (text.length() * paint.getTextSize()) / 4, bitmapCenterY + 250, paint);
+    }
+
+    private void drawCompass(final Canvas canvas) {
+        final int bitmapCenterX = bitmap.getWidth() / 2;
+        final int bitmapCenterY = bitmap.getHeight() / 2;
+        final int parentCenterX = width / 2;
+        final int parentCenterY = height / 2;
+        final int centerX = parentCenterX - bitmapCenterX;
+        final int centerY = parentCenterY - bitmapCenterY;
 
         final int rotation = (int) (360 - bearing);
-
+        paint.reset();
         matrix.reset();
-        matrix.setRotate(rotation, bitmapX, bitmapY);
+        matrix.setRotate(rotation, bitmapCenterX, bitmapCenterY);
         matrix.postTranslate(centerX, centerY);
         canvas.drawBitmap(bitmap, matrix, paint);
+    }
+
+    private void drawPointer(final Canvas canvas) {
+        final int parentCenterX = width / 2;
+        final int bitmapCenterY = bitmap.getHeight() / 2;
+        paint.reset();
+        matrix.reset();
+        matrix.postTranslate(parentCenterX - pointer.getWidth() / 2, bitmapCenterY - pointer.getHeight() + 30);
+        canvas.drawBitmap(pointer, matrix, paint);
     }
 }
