@@ -50,6 +50,7 @@
     <string name="just_sun_icon">Just sun icon</string>
     <string name="landscape">Just a landscape</string>
     <string name="brightness">Just brightness</string>
+    <string name="map">Map</string>
 
     <string-array name="distance_metric_systems">
         <item>Km</item>
