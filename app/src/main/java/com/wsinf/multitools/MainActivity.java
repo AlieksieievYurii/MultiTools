@@ -20,7 +20,6 @@ import com.wsinf.multitools.fragments.GpsSpy;
 import com.wsinf.multitools.fragments.embedded.EmbeddedSensors;
 import com.wsinf.multitools.fragments.level.LevelSensor;
 import com.wsinf.multitools.fragments.wifi.Wifi;
-import com.wsinf.multitools.fragments.permissions.OnPermissionsRequest;
 import com.wsinf.multitools.fragments.permissions.Permissions;
 
 import java.util.Objects;
@@ -28,9 +27,6 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
-
-    private OnPermissionsRequest permissionFragment;
-    private OnPermissionsRequest permissionLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,19 +79,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void loadPermissionsFragment() {
-        final Permissions permissionsFragment = new Permissions();
-        permissionFragment = permissionsFragment;
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.permissions);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                permissionsFragment).commit();
+                new Permissions()).commit();
     }
 
     private void loadCompassFragment() {
-        final Compass compass = new Compass();
-        permissionLocation = compass;
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.compass);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                compass).commit();
+                new Compass()).commit();
     }
 
     private void loadBluetoothFragment() {
@@ -176,14 +168,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawerLayout.closeDrawer(GravityCompat.START);
         else
             super.onBackPressed();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (permissionFragment != null)
-            permissionFragment.onRequest(requestCode, permissions, grantResults);
-
-        if (permissionLocation != null)
-            permissionLocation.onRequest(requestCode, permissions, grantResults);
     }
 }

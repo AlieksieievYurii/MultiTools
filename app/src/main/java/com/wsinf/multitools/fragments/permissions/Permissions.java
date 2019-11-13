@@ -17,7 +17,7 @@ import com.wsinf.multitools.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Permissions extends Fragment implements OnPermissionsRequest {
+public class Permissions extends Fragment {
 
     private Context context;
 
@@ -38,7 +38,7 @@ public class Permissions extends Fragment implements OnPermissionsRequest {
                     PackageManager.GET_PERMISSIONS).requestedPermissions;
 
             for (String permissionName : permission)
-                permissionObjects.add(new Permission(getActivity(), context, permissionName, 0));
+                permissionObjects.add(new Permission(this, context, permissionName, 0));
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -67,9 +67,9 @@ public class Permissions extends Fragment implements OnPermissionsRequest {
     }
 
     @Override
-    public void onRequest(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         for (ViewItemPermission p : permissionsView)
             p.onRefresh();
-
     }
 }
