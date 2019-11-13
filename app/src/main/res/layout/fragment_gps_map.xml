@@ -15,15 +15,24 @@
         style="@style/AppTheme.RoundedCornerMaterialButton"/>
 
     <TextView
+        android:id="@+id/tv_text_current_coordinates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/current_coordinates"
+        android:layout_below="@id/btn_turn_service"
+        android:textAlignment="center"
+        android:textStyle="italic"
+        android:layout_marginTop="50dp" />
+
+    <TextView
         android:id="@+id/tv_current_coordinates"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/btn_turn_service"
-        android:text="12.32423523, 24.43543623"
+        android:layout_below="@id/tv_text_current_coordinates"
+        android:text="@string/default_coordinates"
         android:textAlignment="center"
-        android:layout_marginTop="50dp"
-        android:textSize="19sp"/>
+        android:textSize="14sp"/>
 
     <Button
         android:id="@+id/btn_map"
@@ -34,5 +43,13 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp" />
+
+    <ProgressBar
+        android:id="@+id/pb_tracker_running"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:layout_margin="120dp"/>
 
 </RelativeLayout>

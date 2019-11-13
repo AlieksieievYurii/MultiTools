@@ -51,6 +51,8 @@
     <string name="landscape">Just a landscape</string>
     <string name="brightness">Just brightness</string>
     <string name="map">Map</string>
+    <string name="default_coordinates">Lat: --, Long: --</string>
+    <string name="current_coordinates">Current coordinates</string>
 
     <string-array name="distance_metric_systems">
         <item>Km</item>
