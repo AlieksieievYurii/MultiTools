@@ -31,6 +31,9 @@ public class GpsMap extends Fragment implements View.OnClickListener {
     private Context context;
     private Intent serviceIntent;
 
+    private BroadcastReceiver brServiceState = new BroadCastReceiverServiceState();
+    private BroadcastReceiver brLocationChange = new BroadCastReceiverLocationChange();
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -56,30 +59,21 @@ public class GpsMap extends Fragment implements View.OnClickListener {
         btnTurnTracker.setOnClickListener(this);
 
         refreshView();
+    }
 
-        context.registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                refreshView();
-            }
-        }, new IntentFilter(LocationTracker.BROADCAST_SERVICE_STATE_ACTION));
+    @Override
+    public void onResume() {
+        super.onResume();
+        context.registerReceiver(brServiceState, new IntentFilter(LocationTracker.BROADCAST_SERVICE_STATE_ACTION));
 
-        context.registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
+        context.registerReceiver(brLocationChange, new IntentFilter(LocationTracker.BROADCAST_SERVICE_LOCATION_CHANGE_ACTION));
+    }
 
-                final double latitude = intent.getDoubleExtra(LocationTracker.CURRENT_LATITUDE_EXTRA, -1);
-                final double longitude = intent.getDoubleExtra(LocationTracker.CURRENT_LONGITUDE_EXTRA, -1);
-
-                final StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append("Lat: ");
-                stringBuilder.append(latitude == -1 ? "--" : latitude);
-                stringBuilder.append(",   Long: ");
-                stringBuilder.append(longitude == -1 ? "--" : longitude);
-
-                tvCurrentCoordinates.setText(stringBuilder.toString());
-            }
-        }, new IntentFilter(LocationTracker.BROADCAST_SERVICE_LOCATION_CHANGE_ACTION));
+    @Override
+    public void onPause() {
+        super.onPause();
+        context.unregisterReceiver(brServiceState);
+        context.unregisterReceiver(brLocationChange);
     }
 
     private void refreshView() {
@@ -140,5 +134,29 @@ public class GpsMap extends Fragment implements View.OnClickListener {
                 startGpsTracker();
         } else
             Toast.makeText(context, "You do not have permissions!", Toast.LENGTH_LONG).show();
+    }
+
+    private class BroadCastReceiverServiceState extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            refreshView();
+        }
+    }
+
+    private class BroadCastReceiverLocationChange extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            final double latitude = intent.getDoubleExtra(LocationTracker.CURRENT_LATITUDE_EXTRA, -1);
+            final double longitude = intent.getDoubleExtra(LocationTracker.CURRENT_LONGITUDE_EXTRA, -1);
+
+            final StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("Lat: ");
+            stringBuilder.append(latitude == -1 ? "--" : latitude);
+            stringBuilder.append(",   Long: ");
+            stringBuilder.append(longitude == -1 ? "--" : longitude);
+
+            tvCurrentCoordinates.setText(stringBuilder.toString());
+        }
     }
 }
