@@ -6,16 +6,13 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.wsinf.multitools.R;
@@ -25,22 +22,20 @@ import com.wsinf.multitools.fragments.compass.services.compass.CompassServiceInt
 import com.wsinf.multitools.fragments.compass.services.compass.OnCompassEvent;
 import com.wsinf.multitools.fragments.compass.services.location.LocationService;
 import com.wsinf.multitools.fragments.compass.services.location.OnLocationEvent;
-import com.wsinf.multitools.fragments.permissions.OnPermissionsRequest;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 
-public class Compass extends Fragment implements OnCompassEvent, OnLocationEvent, OnPermissionsRequest {
+public class Compass extends Fragment implements OnCompassEvent, OnLocationEvent {
 
     private static final int LOCATION_PERMISSION_REQUEST = 1;
     private static final String NA = "N/A";
 
     @SuppressLint("SimpleDateFormat")
-    private static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+    private final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
     private Context context;
 
@@ -93,9 +88,8 @@ public class Compass extends Fragment implements OnCompassEvent, OnLocationEvent
         try {
             locationService.onStart();
         } catch (SecurityException e) {
-            ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()),
-                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
-                            Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST);
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST);
         }
     }
 
@@ -135,8 +129,10 @@ public class Compass extends Fragment implements OnCompassEvent, OnLocationEvent
         tvAltitude.setText(String.format("%d m", Math.round(location.getAltitude())));
     }
 
+
     @Override
-    public void onRequest(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == LOCATION_PERMISSION_REQUEST && grantResults.length > 1
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
             locationService.onStart();

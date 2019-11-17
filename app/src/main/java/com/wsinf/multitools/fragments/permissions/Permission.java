@@ -4,20 +4,20 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.Fragment;
 
 class Permission {
-    private FragmentActivity fragmentActivity;
+    private Fragment fragment;
     private Context context;
     private String perm;
     private int requestCode;
 
-    Permission(final FragmentActivity fragmentActivity,
+    Permission(final Fragment fragmentActivity,
                       final Context context,
                       final String perm,
                       final int requestCode) {
         this.context = context;
-        this.fragmentActivity = fragmentActivity;
+        this.fragment = fragmentActivity;
         this.requestCode = requestCode;
 
         if (perm == null)
@@ -31,7 +31,7 @@ class Permission {
     }
 
     void requestPermission() {
-        ActivityCompat.requestPermissions(fragmentActivity, new String[]{perm}, requestCode);
+        fragment.requestPermissions(new String[]{perm}, requestCode);
     }
 
     String getPermissionName() {

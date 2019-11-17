@@ -20,6 +20,7 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -27,6 +28,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".fragments.gpstracker.Map"/>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyB8wDtwByZjOw6r8e56Y_OcshpfJfL7vFY" />
+
+        <service android:name=".fragments.gpstracker.LocationTracker" />
+
         <activity
             android:name=".fragments.camera.ImagePreview"
             android:screenOrientation="portrait"
