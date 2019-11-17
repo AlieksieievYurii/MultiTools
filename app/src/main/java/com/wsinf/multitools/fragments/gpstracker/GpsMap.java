@@ -1,6 +1,7 @@
 package com.wsinf.multitools.fragments.gpstracker;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,15 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.wsinf.multitools.R;
+import java.util.Calendar;
 
 public class GpsMap extends Fragment implements View.OnClickListener {
 
@@ -91,13 +92,30 @@ public class GpsMap extends Fragment implements View.OnClickListener {
     }
 
     private void onOpenMap() {
+        final DatePickerDialog datePickerDialog = new DatePickerDialog(context);
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                final Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                final Intent intent = new Intent(context, Map.class);
+                intent.putExtra(Map.TIME_STAMP_EXTRA, calendar);
+                startActivity(intent);
+            }
+        });
+
+        datePickerDialog.show();
     }
 
 
     private void onTurnTracker() {
         if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                 context.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions( new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST);
         } else
             startGpsTracker();
@@ -131,7 +149,7 @@ public class GpsMap extends Fragment implements View.OnClickListener {
                 permissions.length == 2 &&
                 grantResults[0] == PackageManager.PERMISSION_GRANTED &&
                 grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                startGpsTracker();
+            startGpsTracker();
         } else
             Toast.makeText(context, "You do not have permissions!", Toast.LENGTH_LONG).show();
     }
