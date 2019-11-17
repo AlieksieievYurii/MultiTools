@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import com.wsinf.multitools.fragments.compass.services.Service;
 public class LocationService implements Service, LocationListener
 {
-    static final String FIXED = "FIXED";
+    private static final String FIXED = "FIXED";
 
     private static final int LOCATION_MIN_TIME = 5 * 1000;
     private static final int LOCATION_MID_DISTANCE = 10;

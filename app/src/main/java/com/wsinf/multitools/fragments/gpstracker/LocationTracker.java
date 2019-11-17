@@ -12,6 +12,8 @@ import androidx.core.app.NotificationCompat;
 import com.wsinf.multitools.App;
 import com.wsinf.multitools.MainActivity;
 import com.wsinf.multitools.R;
+import com.wsinf.multitools.fragments.gpstracker.room.LocalDataBase;
+import com.wsinf.multitools.fragments.gpstracker.room.Point;
 
 public class LocationTracker extends Service implements LocationEvent {
 
@@ -26,10 +28,13 @@ public class LocationTracker extends Service implements LocationEvent {
 
     private com.wsinf.multitools.fragments.compass.services.Service locationService;
 
+    private LocalDataBase localDataBase;
+
     @Override
     public void onCreate() {
         super.onCreate();
         locationService = new LocationService(this, this);
+        localDataBase = ((App)getApplication()).getLocalDataBase();
     }
 
     @Override
@@ -83,5 +88,7 @@ public class LocationTracker extends Service implements LocationEvent {
         intent.putExtra(CURRENT_LATITUDE_EXTRA, latitude);
         intent.putExtra(CURRENT_LONGITUDE_EXTRA, longitude);
         sendBroadcast(intent);
+
+        localDataBase.pointDao().insert(new Point(latitude, longitude));
     }
 }
