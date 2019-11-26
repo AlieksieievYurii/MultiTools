@@ -83,7 +83,7 @@ public class CanvasView extends SurfaceView implements SurfaceHolder.Callback, D
 
 
     public Canvas onDrawView(Canvas canvas) {
-        canvas.drawARGB(255, 0, 0, 255);
+        canvas.drawARGB(255, 0, 100, 0);
 
         xLevelPainter.draw(canvas, xDegreeP);
         yLevelPainter.draw(canvas, yDegreeP);
