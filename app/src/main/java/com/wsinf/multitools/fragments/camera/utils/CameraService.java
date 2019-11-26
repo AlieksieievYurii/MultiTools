@@ -9,8 +9,6 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import java.util.List;
-
 public class CameraService implements CameraInterface, SurfaceHolder.Callback {
 
     private static final String TAG = "CameraService";
