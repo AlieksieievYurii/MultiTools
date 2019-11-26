@@ -63,12 +63,19 @@ public class LevelSensor extends Fragment implements SensorEventListener {
         this.sensorManager.unregisterListener(this);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        this.rootView.surfaceDestroyed(null);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.rootView = new CanvasView(this.context);
         return this.rootView;
     }
+
 
     @Override
     public void onSensorChanged(SensorEvent event) {
