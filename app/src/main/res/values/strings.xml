@@ -54,6 +54,10 @@
     <string name="default_coordinates">Lat: --, Long: --</string>
     <string name="current_coordinates">Current coordinates</string>
     <string name="the_permission_not_granted">The permission not granted!</string>
+    <string name="not_supported">Your device does not support environmental sensors!</string>
+    <string name="temperature">Temperature:</string>
+    <string name="absolute_humidity">Absolute humidity:</string>
+    <string name="dew_point">Dew point:</string>
 
     <string-array name="distance_metric_systems">
         <item>Km</item>
