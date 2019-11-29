@@ -28,7 +28,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".fragments.gpstracker.Map"/>
+        <activity android:name=".fragments.spy.SpyMap"></activity>
+        <activity android:name=".fragments.gpstracker.Map" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

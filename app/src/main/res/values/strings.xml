@@ -59,6 +59,9 @@
     <string name="absolute_humidity">Absolute humidity:</string>
     <string name="dew_point">Dew point:</string>
     <string name="not_tracked_devices">Not tracked devices!</string>
+    <string name="cancel">Cancel</string>
+    <string name="check_all">Check all</string>
+    <string name="select">Select</string>
 
     <string-array name="distance_metric_systems">
         <item>Km</item>
