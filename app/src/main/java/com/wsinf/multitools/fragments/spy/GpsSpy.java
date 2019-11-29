@@ -1,4 +1,4 @@
-package com.wsinf.multitools.fragments;
+package com.wsinf.multitools.fragments.spy;
 
 import androidx.fragment.app.Fragment;
 

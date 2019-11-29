@@ -16,7 +16,7 @@ import com.wsinf.multitools.fragments.calculator.CombustionCalculator;
 import com.wsinf.multitools.fragments.compass.Compass;
 import com.wsinf.multitools.fragments.enviromental.EnvironmentalSensors;
 import com.wsinf.multitools.fragments.gpstracker.GpsMap;
-import com.wsinf.multitools.fragments.GpsSpy;
+import com.wsinf.multitools.fragments.spy.GpsSpy;
 import com.wsinf.multitools.fragments.embedded.EmbeddedSensors;
 import com.wsinf.multitools.fragments.level.LevelSensor;
 import com.wsinf.multitools.fragments.wifi.Wifi;
