@@ -31,7 +31,6 @@ dependencies {
     implementation 'org.shredzone.commons:commons-suncalc:2.6'
     implementation "com.google.android.material:material:$material_version"
     implementation "androidx.room:room-runtime:$room_version"
-    implementation "me.zhanghai.android.materialprogressbar:library:1.4.2"
     implementation 'com.google.firebase:firebase-database:19.2.0'
     annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
