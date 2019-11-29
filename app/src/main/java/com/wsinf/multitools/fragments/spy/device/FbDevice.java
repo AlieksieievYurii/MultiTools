@@ -6,32 +6,34 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.wsinf.multitools.fragments.spy.FbObject;
 import com.wsinf.multitools.fragments.spy.Promise;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FbDevice {
-    private DatabaseReference root;
+public class FbDevice extends FbObject<Device> {
 
     public FbDevice(DatabaseReference root) {
-        this.root = root;
+        super(root);
     }
 
+    @Override
     public Device create(Device device) {
-        final DatabaseReference reference = root.push();
+        final DatabaseReference reference = getRoot().push();
         device.setId(reference.getKey());
         reference.setValue(device.toMap());
         return device;
     }
 
-    public void getAllDevices(final Promise<Device> promise) {
-        root.addListenerForSingleValueEvent(new ValueEventListener() {
+    @Override
+    public void getAll(final Promise<Device> promise) {
+        getRoot().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 final List<Device> list = new ArrayList<>();
                 for (DataSnapshot ds : dataSnapshot.getChildren())
-                    list.add(toDevice(ds));
+                    list.add(toObject(ds));
                 promise.onReceiveAll(list);
             }
 
@@ -42,7 +44,8 @@ public class FbDevice {
         });
     }
 
-    private static Device toDevice(final DataSnapshot dataSnapshot) {
+    @Override
+    protected Device toObject(DataSnapshot dataSnapshot) {
         final String id = dataSnapshot.getKey();
         final Device device = dataSnapshot.getValue(Device.class);
         if (device == null)
