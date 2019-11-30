@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +24,7 @@ import com.wsinf.multitools.fragments.spy.utils.adapter.OnSelection;
 import com.wsinf.multitools.fragments.spy.utils.adapter.SelectableListAdapter;
 import com.wsinf.multitools.fragments.spy.utils.adapter.ListAdapter;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -122,7 +122,7 @@ public class GpsSpy extends Fragment implements OnSelection<Device> {
 
 
     @Override
-    public void onSelectedDevices(List<Device> list) {
+    public void onSelectedDevices(final List<Device> list) {
         final DatePickerDialog datePickerDialog = new DatePickerDialog(context);
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
@@ -134,6 +134,8 @@ public class GpsSpy extends Fragment implements OnSelection<Device> {
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                 final Intent intent = new Intent(context, SpyMap.class);
+                intent.putExtra(SpyMap.DATE_EXTRA, calendar);
+                intent.putParcelableArrayListExtra(SpyMap.DEVICES_LIST_EXTRA, (ArrayList<Device>) list);
                 startActivity(intent);
             }
         });
