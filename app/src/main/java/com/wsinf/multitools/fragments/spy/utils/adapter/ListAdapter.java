@@ -85,19 +85,27 @@ public class ListAdapter extends SelectableListAdapter<Device> {
             public void onClick(View v) {
                 if (isSelectableMode)
                     checkBox.setChecked(!checkBox.isChecked());
-                else if (onSelection != null)
-                    onSelection.onDeviceSelect(device);
+                else if (onSelection != null) {
+                    final List<Device> singleList = new ArrayList<>();
+                    singleList.add(device);
+                    onSelection.onSelectedDevices(singleList);
+                }
+
             }
         });
 
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                if (isSelectableMode)
+                    return false;
+
                 if (onSelection != null)
                     onSelection.onSelectableMode();
 
                 isSelectableMode = true;
                 showCheckBoxes(true);
+                checkBox.setChecked(true);
 
                 return true;
             }

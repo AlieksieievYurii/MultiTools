@@ -1,11 +1,14 @@
 package com.wsinf.multitools.fragments.spy;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +25,7 @@ import com.wsinf.multitools.fragments.spy.utils.adapter.OnSelection;
 import com.wsinf.multitools.fragments.spy.utils.adapter.SelectableListAdapter;
 import com.wsinf.multitools.fragments.spy.utils.adapter.ListAdapter;
 
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -119,37 +123,25 @@ public class GpsSpy extends Fragment implements OnSelection<Device> {
 
     @Override
     public void onSelectedDevices(List<Device> list) {
-        Toast.makeText(context, "LIST" + list.size(), Toast.LENGTH_LONG).show();
-    }
+        final DatePickerDialog datePickerDialog = new DatePickerDialog(context);
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                final Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-    @Override
-    public void onDeviceSelect(Device device) {
-        Toast.makeText(context, device.toString(), Toast.LENGTH_LONG).show();
+                final Intent intent = new Intent(context, SpyMap.class);
+                startActivity(intent);
+            }
+        });
+        datePickerDialog.show();
     }
 
     @Override
     public void onSelectableMode() {
         rlSelectionOptions.setVisibility(View.VISIBLE);
     }
-
-//    @Override
-//    public void onDeviceSelect(Device device) {
-//        final DatePickerDialog datePickerDialog = new DatePickerDialog(context);
-//        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-//        datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-//                final Calendar calendar = Calendar.getInstance();
-//                calendar.set(Calendar.YEAR, year);
-//                calendar.set(Calendar.MONTH, month);
-//                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-//
-//                final Intent intent = new Intent(context, SpyMap.class);
-//                startActivity(intent);
-//
-//            }
-//        });
-//
-//        datePickerDialog.show();
-//    }
 }
