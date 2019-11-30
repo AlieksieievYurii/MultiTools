@@ -5,6 +5,12 @@
     android:layout_height="match_parent"
     tools:context=".fragments.spy.SpyMap">
 
+    <ProgressBar
+        android:id="@+id/pb_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+
     <fragment
         android:id="@+id/fl_map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
