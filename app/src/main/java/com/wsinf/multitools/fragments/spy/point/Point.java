@@ -1,5 +1,6 @@
 package com.wsinf.multitools.fragments.spy.point;
 
+
 import com.wsinf.multitools.fragments.spy.Serializer;
 
 import java.util.HashMap;
@@ -8,8 +9,8 @@ import java.util.Objects;
 
 public class Point implements Serializer {
     private String id;
-    private float latitude;
-    private float longitude;
+    private double latitude;
+    private double longitude;
     private long timestamp;
 
     public Point() {
@@ -30,19 +31,19 @@ public class Point implements Serializer {
     }
 
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 

@@ -15,6 +15,7 @@ public abstract class FbObject<T> {
     }
 
     public abstract T create(T object);
-    public abstract void getAll(final Promise<T> promise);
+    public abstract void getAll(final PromiseOnList<T> promise);
+    public abstract void get(final String id, final PromiseOnObject<T> promise);
     protected abstract T toObject(DataSnapshot dataSnapshot);
 }

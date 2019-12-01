@@ -74,11 +74,11 @@ public class ListAdapter extends SelectableListAdapter<Device> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.device_item, parent, false);
 
         final TextView tvModel = convertView.findViewById(R.id.tv_model);
-        final TextView tvMacAddress = convertView.findViewById(R.id.tc_mac_address);
+        final TextView tvAndroidID = convertView.findViewById(R.id.tc_android_id);
         final CheckBox checkBox = convertView.findViewById(R.id.cb_checkbox);
 
         tvModel.setText(device.getModel());
-        tvMacAddress.setText(device.getMacAddress());
+        tvAndroidID.setText(device.getId());
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
