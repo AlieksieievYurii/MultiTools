@@ -1,4 +1,4 @@
-package com.wsinf.multitools.fragments.gpstracker;
+package com.wsinf.spytracker.location;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,7 +9,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
-import com.wsinf.multitools.fragments.compass.services.Service;
+import com.wsinf.spytracker.Service;
+
 public class LocationService implements Service, LocationListener
 {
     private static final String FIXED = "FIXED";
@@ -21,7 +22,7 @@ public class LocationService implements Service, LocationListener
 
     private LocationEvent locationEvent;
 
-    LocationService(@NonNull Context context, @NonNull LocationEvent locationEvent) {
+    public LocationService(@NonNull Context context, @NonNull LocationEvent locationEvent) {
         this.locationEvent = locationEvent;
 
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);

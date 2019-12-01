@@ -1,4 +1,4 @@
-package com.wsinf.multitools.fragments.gpstracker;
+package com.wsinf.spytracker.location;
 
 public interface LocationEvent
 {
