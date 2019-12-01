@@ -7,7 +7,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.wsinf.multitools.fragments.spy.FbObject;
-import com.wsinf.multitools.fragments.spy.Promise;
+import com.wsinf.multitools.fragments.spy.PromiseOnList;
+import com.wsinf.multitools.fragments.spy.PromiseOnObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class FbPoint extends FbObject<Point> {
     }
 
     @Override
-    public void getAll(final Promise<Point> promise) {
+    public void getAll(final PromiseOnList<Point> promise) {
         getRoot().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -42,6 +43,11 @@ public class FbPoint extends FbObject<Point> {
 
             }
         });
+    }
+
+    @Override
+    public void get(String id, PromiseOnObject<Point> promise) {
+
     }
 
     @Override

@@ -13,7 +13,7 @@
         android:id="@+id/im_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/tc_mac_address"
+        android:layout_alignBottom="@id/tc_android_id"
         android:layout_alignTop="@id/tv_model"
         android:layout_marginEnd="8dp"
         android:src="@drawable/ic_phone"
@@ -28,7 +28,7 @@
         android:textSize="16sp"
         style="@style/TextAppearance.AppCompat.Title"/>
     <TextView
-        android:id="@+id/tc_mac_address"
+        android:id="@+id/tc_android_id"
         android:layout_below="@id/tv_model"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

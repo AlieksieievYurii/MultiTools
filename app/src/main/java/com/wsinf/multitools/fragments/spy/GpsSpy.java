@@ -109,7 +109,7 @@ public class GpsSpy extends Fragment implements OnSelection<Device> {
     @Override
     public void onStart() {
         super.onStart();
-        fbDevices.getAll(new Promise<Device>() {
+        fbDevices.getAll(new PromiseOnList<Device>() {
             @Override
             public void onReceiveAll(List<Device> list) {
                 if (list.isEmpty())

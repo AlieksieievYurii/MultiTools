@@ -7,7 +7,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.wsinf.multitools.fragments.spy.FbObject;
-import com.wsinf.multitools.fragments.spy.Promise;
+import com.wsinf.multitools.fragments.spy.PromiseOnList;
+import com.wsinf.multitools.fragments.spy.PromiseOnObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,14 +21,13 @@ public class FbDevice extends FbObject<Device> {
 
     @Override
     public Device create(Device device) {
-        final DatabaseReference reference = getRoot().push();
-        device.setId(reference.getKey());
+        final DatabaseReference reference = getRoot().child(device.getId());
         reference.setValue(device.toMap());
         return device;
     }
 
     @Override
-    public void getAll(final Promise<Device> promise) {
+    public void getAll(final PromiseOnList<Device> promise) {
         getRoot().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -35,6 +35,32 @@ public class FbDevice extends FbObject<Device> {
                 for (DataSnapshot ds : dataSnapshot.getChildren())
                     list.add(toObject(ds));
                 promise.onReceiveAll(list);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    public void get(String id, final PromiseOnObject<Device> promise) {
+        getRoot().orderByKey().equalTo(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() == 0)
+                    promise.onReceive(null);
+                else {
+                    final DataSnapshot dssDevice = dataSnapshot.getChildren().iterator().next();
+                    final Device device = dssDevice.getValue(Device.class);
+                    if (device == null)
+                        return;
+
+                    device.setId(dssDevice.getKey());
+                    promise.onReceive(device);
+                }
+
             }
 
             @Override
