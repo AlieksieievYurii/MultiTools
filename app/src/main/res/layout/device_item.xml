@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:animateLayoutChanges="true"
+    android:focusable="true"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/im_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/tc_mac_address"
+        android:layout_alignTop="@id/tv_model"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_phone"
+        android:contentDescription="@string/spy" />
+
+    <TextView
+        android:id="@+id/tv_model"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/im_phone"
+        tools:text="Mock test model name"
+        android:textSize="16sp"
+        style="@style/TextAppearance.AppCompat.Title"/>
+    <TextView
+        android:id="@+id/tc_mac_address"
+        android:layout_below="@id/tv_model"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/im_phone"
+        tools:text="12:32:f3:5434f:r34"/>
+
+    <CheckBox
+        android:id="@+id/cb_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:visibility="invisible"
+        android:layout_centerVertical="true"/>
+
+
+</RelativeLayout>

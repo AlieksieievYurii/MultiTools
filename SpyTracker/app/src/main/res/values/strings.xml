@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SpyTracker</string>
+    <string name="default_coordinates">Lat: --, Long: --</string>
+    <string name="current_coordinates">Current coordinates</string>
+</resources>
