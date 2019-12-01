@@ -9,7 +9,7 @@ import android.os.IBinder;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import com.google.firebase.database.FirebaseDatabase;
+import com.wsinf.spytracker.location.FireBaseHelper;
 import com.wsinf.spytracker.location.LocationEvent;
 import com.wsinf.spytracker.location.LocationService;
 
@@ -26,14 +26,14 @@ public class SpyTrackerService extends Service implements LocationEvent {
     static boolean isRunning = false;
 
     private com.wsinf.spytracker.Service locationService;
-    private FirebaseDatabase firebaseDatabase;
+    private LocationEvent locationEvent;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
         locationService = new LocationService(this, this);
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        locationEvent = new FireBaseHelper(this);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class SpyTrackerService extends Service implements LocationEvent {
 
     private void onServiceStateBroadCast(final int state) {
         final Intent intent = new Intent(BROADCAST_SERVICE_STATE_ACTION);
-        intent.putExtra(SERVICE_STATUS_EXTRA,state);
+        intent.putExtra(SERVICE_STATUS_EXTRA, state);
         sendBroadcast(intent);
     }
 
@@ -79,7 +79,7 @@ public class SpyTrackerService extends Service implements LocationEvent {
         intent.putExtra(CURRENT_LONGITUDE_EXTRA, longitude);
         sendBroadcast(intent);
 
-        //TODO here must be inserting location points to the db
+        locationEvent.onLocationChange(latitude, longitude);
     }
 
     @Override
