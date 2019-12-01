@@ -6,6 +6,9 @@ import android.os.Parcelable;
 
 import com.wsinf.multitools.fragments.spy.Serializer;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -15,7 +18,6 @@ public class Device implements Serializer, Parcelable
     private String id;
     private String serial;
     private String model;
-    private String buildId;
     private String manufacture;
     private String brand;
     private String type;
@@ -52,14 +54,6 @@ public class Device implements Serializer, Parcelable
 
     public void setModel(String model) {
         this.model = model;
-    }
-
-    public String getBuildId() {
-        return buildId;
-    }
-
-    public void setBuildId(String buildId) {
-        this.buildId = buildId;
     }
 
     public String getManufacture() {
@@ -146,7 +140,6 @@ public class Device implements Serializer, Parcelable
         id = in.readString();
         serial = in.readString();
         model = in.readString();
-        buildId = in.readString();
         manufacture = in.readString();
         brand = in.readString();
         type = in.readString();
@@ -176,7 +169,6 @@ public class Device implements Serializer, Parcelable
         final Map<String, Object> data = new HashMap<>();
         data.put("model", model);
         data.put("serial", serial);
-        data.put("buildId", buildId);
         data.put("manufacture", manufacture);
         data.put("brand", brand);
         data.put("type", type);
@@ -188,6 +180,53 @@ public class Device implements Serializer, Parcelable
         data.put("host", host);
         data.put("versionCode", versionCode);
         return data;
+    }
+
+    public String toJson() {
+        final JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id", id);
+            jsonObject.put("model", model);
+            jsonObject.put("serial", serial);
+            jsonObject.put("manufacture", manufacture);
+            jsonObject.put("brand", brand);
+            jsonObject.put("type", type);
+            jsonObject.put("user", user);
+            jsonObject.put("base", base);
+            jsonObject.put("incremental", incremental);
+            jsonObject.put("sdk", sdk);
+            jsonObject.put("board", board);
+            jsonObject.put("host", host);
+            jsonObject.put("versionCode", versionCode);
+            return jsonObject.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Device toObject(String json) {
+        try {
+            final JSONObject jsonObject = new JSONObject(json);
+            final Device device = new Device();
+            device.setId(jsonObject.getString("id"));
+            device.setModel(jsonObject.getString("model"));
+            device.setSerial(jsonObject.getString("serial"));
+            device.setManufacture(jsonObject.getString("manufacture"));
+            device.setBrand(jsonObject.getString("brand"));
+            device.setType(jsonObject.getString("type"));
+            device.setUser(jsonObject.getString("user"));
+            device.setBase(jsonObject.getInt("base"));
+            device.setIncremental(jsonObject.getString("incremental"));
+            device.setSdk(jsonObject.getString("sdk"));
+            device.setBoard(jsonObject.getString("board"));
+            device.setHost(jsonObject.getString("host"));
+            device.setVersionCode(jsonObject.getString("versionCode"));
+            return device;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -214,7 +253,6 @@ public class Device implements Serializer, Parcelable
                 "id='" + id + '\'' +
                 ", serial='" + serial + '\'' +
                 ", model='" + model + '\'' +
-                ", buildId='" + buildId + '\'' +
                 ", manufacture='" + manufacture + '\'' +
                 ", brand='" + brand + '\'' +
                 ", type='" + type + '\'' +
@@ -233,7 +271,6 @@ public class Device implements Serializer, Parcelable
         dest.writeString(id);
         dest.writeString(serial);
         dest.writeString(model);
-        dest.writeString(buildId);
         dest.writeString(manufacture);
         dest.writeString(brand);
         dest.writeString(type);

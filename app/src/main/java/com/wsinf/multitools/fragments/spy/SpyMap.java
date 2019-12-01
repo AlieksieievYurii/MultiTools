@@ -11,6 +11,9 @@ import android.widget.Toast;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,6 +26,7 @@ import com.wsinf.multitools.fragments.spy.point.Point;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -82,7 +86,7 @@ public class SpyMap extends AppCompatActivity implements OnMapReadyCallback {
         return c.getTimeInMillis();
     }
 
-    private static long getMaxTime(final Calendar calendar){
+    private static long getMaxTime(final Calendar calendar) {
         final Calendar c = (Calendar) calendar.clone();
         c.set(Calendar.HOUR_OF_DAY, 23);
         c.set(Calendar.MINUTE, 59);
@@ -93,38 +97,50 @@ public class SpyMap extends AppCompatActivity implements OnMapReadyCallback {
 
     private void getPointsFor(final Device device) {
         final List<Point> pointsList = new ArrayList<>();
-        final DatabaseReference  fireBasePoints = firebaseDatabase.getReference("Points/" + device.getId());
+        final DatabaseReference fireBasePoints = firebaseDatabase.getReference("Points/" + device.getId());
         fireBasePoints
                 .orderByChild("timestamp")
                 .startAt(getMinTime(date))
                 .endAt(getMaxTime(date))
                 .addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (final DataSnapshot dsp : dataSnapshot.getChildren()) {
-                    final Point point = dsp.getValue(Point.class);
-                    assert point != null;
-                    point.setId(dsp.getKey());
-                    pointsList.add(point);
-                }
-                deviceListMap.put(device, pointsList);
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (final DataSnapshot dsp : dataSnapshot.getChildren()) {
+                            final Point point = dsp.getValue(Point.class);
+                            assert point != null;
+                            point.setId(dsp.getKey());
+                            pointsList.add(point);
+                        }
+                        deviceListMap.put(device, pointsList);
 
-                if (deviceListMap.size() == deviceList.size()) {
-                    // All points are loaded for all devices
-                    supportMapFragment.getMapAsync(SpyMap.this);
-                }
-            }
+                        if (deviceListMap.size() == deviceList.size()) {
+                            // All points are loaded for all devices
+                            supportMapFragment.getMapAsync(SpyMap.this);
+                        }
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                    }
+                });
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Objects.requireNonNull(supportMapFragment.getView()).setVisibility(View.VISIBLE);
-        Toast.makeText(this, deviceListMap.size() + "d", Toast.LENGTH_LONG).show();
+        googleMap.setInfoWindowAdapter(new DeviceInfoView(this));
+        for (Map.Entry<Device, List<Point>> entry : deviceListMap.entrySet())
+            if (!entry.getValue().isEmpty())
+                drawTracking(entry.getKey(), entry.getValue(), googleMap);
+    }
+
+    private void drawTracking(Device device, List<Point> points, GoogleMap googleMap) {
+        final Point startPoint = points.get(0);
+        final LatLng start = new LatLng(startPoint.getLatitude(), startPoint.getLongitude());
+        Marker melbourne = googleMap.addMarker(new MarkerOptions()
+                .position(start)
+                .snippet(device.toJson()));
+        melbourne.showInfoWindow();
     }
 }
