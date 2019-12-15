@@ -30,7 +30,6 @@ import java.util.List;
 
 
 public class GpsSpy extends Fragment implements OnSelection<Device> {
-    private FirebaseDatabase firebaseDatabase;
 
     private Context context;
     private ListView lwDevices;
@@ -44,7 +43,7 @@ public class GpsSpy extends Fragment implements OnSelection<Device> {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         fbDevices = new FbDevice(firebaseDatabase.getReference("Devices"));
     }
 
@@ -109,7 +108,7 @@ public class GpsSpy extends Fragment implements OnSelection<Device> {
     @Override
     public void onStart() {
         super.onStart();
-        fbDevices.getAll(new Promise<Device>() {
+        fbDevices.getAll(new PromiseOnList<Device>() {
             @Override
             public void onReceiveAll(List<Device> list) {
                 if (list.isEmpty())
@@ -120,9 +119,21 @@ public class GpsSpy extends Fragment implements OnSelection<Device> {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (listAdapter != null) {
+            listAdapter.onCancelSelection();
+            rlSelectionOptions.setVisibility(View.GONE);
+        }
+
+    }
 
     @Override
     public void onSelectedDevices(final List<Device> list) {
+        if (list.isEmpty())
+            return;
+
         final DatePickerDialog datePickerDialog = new DatePickerDialog(context);
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {

@@ -4,13 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +35,16 @@ public class SpyMap extends AppCompatActivity implements OnMapReadyCallback {
     public static final String DATE_EXTRA = "date.extra";
     public static final String DEVICES_LIST_EXTRA = "devices.list.extra";
 
+    private static final int[] COLORS = new int[]{
+            Color.RED,
+            Color.GREEN,
+            Color.GRAY,
+            Color.BLACK,
+            Color.YELLOW,
+            Color.MAGENTA,
+            Color.CYAN,
+    };
+
     private FirebaseDatabase firebaseDatabase;
     private SupportMapFragment supportMapFragment;
 
@@ -38,6 +52,8 @@ public class SpyMap extends AppCompatActivity implements OnMapReadyCallback {
     private List<Device> deviceList;
 
     private Map<Device, List<Point>> deviceListMap;
+
+    private int indexOfColorLine = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +98,7 @@ public class SpyMap extends AppCompatActivity implements OnMapReadyCallback {
         return c.getTimeInMillis();
     }
 
-    private static long getMaxTime(final Calendar calendar){
+    private static long getMaxTime(final Calendar calendar) {
         final Calendar c = (Calendar) calendar.clone();
         c.set(Calendar.HOUR_OF_DAY, 23);
         c.set(Calendar.MINUTE, 59);
@@ -93,38 +109,70 @@ public class SpyMap extends AppCompatActivity implements OnMapReadyCallback {
 
     private void getPointsFor(final Device device) {
         final List<Point> pointsList = new ArrayList<>();
-        final DatabaseReference  fireBasePoints = firebaseDatabase.getReference("Points/" + device.getId());
+        final DatabaseReference fireBasePoints = firebaseDatabase.getReference("Points/" + device.getId());
         fireBasePoints
                 .orderByChild("timestamp")
                 .startAt(getMinTime(date))
                 .endAt(getMaxTime(date))
                 .addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (final DataSnapshot dsp : dataSnapshot.getChildren()) {
-                    final Point point = dsp.getValue(Point.class);
-                    assert point != null;
-                    point.setId(dsp.getKey());
-                    pointsList.add(point);
-                }
-                deviceListMap.put(device, pointsList);
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (final DataSnapshot dsp : dataSnapshot.getChildren()) {
+                            final Point point = dsp.getValue(Point.class);
+                            assert point != null;
+                            point.setId(dsp.getKey());
+                            pointsList.add(point);
+                        }
+                        deviceListMap.put(device, pointsList);
 
-                if (deviceListMap.size() == deviceList.size()) {
-                    // All points are loaded for all devices
-                    supportMapFragment.getMapAsync(SpyMap.this);
-                }
-            }
+                        if (deviceListMap.size() == deviceList.size()) {
+                            // All points are loaded for selected devices
+                            supportMapFragment.getMapAsync(SpyMap.this);
+                        }
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                    }
+                });
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Objects.requireNonNull(supportMapFragment.getView()).setVisibility(View.VISIBLE);
-        Toast.makeText(this, deviceListMap.size() + "d", Toast.LENGTH_LONG).show();
+        googleMap.setInfoWindowAdapter(new DeviceInfoView(this));
+        for (Map.Entry<Device, List<Point>> entry : deviceListMap.entrySet())
+            if (!entry.getValue().isEmpty())
+                drawTracking(entry.getKey(), entry.getValue(), googleMap);
+    }
+
+    private void drawTracking(Device device, List<Point> points, GoogleMap googleMap) {
+        final Point startPoint = points.get(0);
+        final LatLng start = new LatLng(startPoint.getLatitude(), startPoint.getLongitude());
+        Marker melbourne = googleMap.addMarker(new MarkerOptions()
+                .position(start)
+                .snippet(device.toJson()));
+        melbourne.showInfoWindow();
+
+        drawLine(points, googleMap);
+    }
+
+    private void drawLine(List<Point> points, GoogleMap googleMap) {
+        final PolylineOptions polylineOptions = new PolylineOptions();
+        polylineOptions.color(getColorID());
+
+        for (final Point point : points) {
+            polylineOptions.add(new LatLng(point.getLatitude(), point.getLongitude()));
+        }
+
+        googleMap.addPolyline(polylineOptions);
+    }
+
+    private int getColorID() {
+        if (indexOfColorLine >= COLORS.length)
+            indexOfColorLine = 0;
+
+        return COLORS[indexOfColorLine++];
     }
 }
