@@ -4,9 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -14,6 +14,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +27,6 @@ import com.wsinf.multitools.fragments.spy.point.Point;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -35,6 +35,16 @@ public class SpyMap extends AppCompatActivity implements OnMapReadyCallback {
     public static final String DATE_EXTRA = "date.extra";
     public static final String DEVICES_LIST_EXTRA = "devices.list.extra";
 
+    private static final int[] COLORS = new int[]{
+            Color.RED,
+            Color.GREEN,
+            Color.GRAY,
+            Color.BLACK,
+            Color.YELLOW,
+            Color.MAGENTA,
+            Color.CYAN,
+    };
+
     private FirebaseDatabase firebaseDatabase;
     private SupportMapFragment supportMapFragment;
 
@@ -42,6 +52,8 @@ public class SpyMap extends AppCompatActivity implements OnMapReadyCallback {
     private List<Device> deviceList;
 
     private Map<Device, List<Point>> deviceListMap;
+
+    private int indexOfColorLine = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +126,7 @@ public class SpyMap extends AppCompatActivity implements OnMapReadyCallback {
                         deviceListMap.put(device, pointsList);
 
                         if (deviceListMap.size() == deviceList.size()) {
-                            // All points are loaded for all devices
+                            // All points are loaded for selected devices
                             supportMapFragment.getMapAsync(SpyMap.this);
                         }
                     }
@@ -142,5 +154,25 @@ public class SpyMap extends AppCompatActivity implements OnMapReadyCallback {
                 .position(start)
                 .snippet(device.toJson()));
         melbourne.showInfoWindow();
+
+        drawLine(points, googleMap);
+    }
+
+    private void drawLine(List<Point> points, GoogleMap googleMap) {
+        final PolylineOptions polylineOptions = new PolylineOptions();
+        polylineOptions.color(getColorID());
+
+        for (final Point point : points) {
+            polylineOptions.add(new LatLng(point.getLatitude(), point.getLongitude()));
+        }
+
+        googleMap.addPolyline(polylineOptions);
+    }
+
+    private int getColorID() {
+        if (indexOfColorLine >= COLORS.length)
+            indexOfColorLine = 0;
+
+        return COLORS[indexOfColorLine++];
     }
 }
